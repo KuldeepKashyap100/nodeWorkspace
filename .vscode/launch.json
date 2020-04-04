@@ -14,6 +14,30 @@
             "restart":true,
             "runtimeExecutable": "nodemon",
             "console": "integratedTerminal",
+            "program": "${workspaceFolder}\\assignment_1\\app.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "restart":true,
+            "runtimeExecutable": "nodemon",
+            "console": "integratedTerminal",
+            "program": "${workspaceFolder}\\expressServer\\app.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "restart":true,
+            "runtimeExecutable": "nodemon",
+            "console": "integratedTerminal",
             "program": "${workspaceFolder}\\nodeServer\\app.js"
         }
     ]

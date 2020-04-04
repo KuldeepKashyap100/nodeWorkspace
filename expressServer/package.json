@@ -1,5 +1,5 @@
 {
-  "name": "nodeserver",
+  "name": "expressServer",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -8,12 +8,13 @@
     "start": "nodemon app.js",
     "start-server": "node app.js"
   },
-  "author": "kuldeep",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.2"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
     "express": "^4.17.1"
   }
 }
