@@ -1,5 +1,4 @@
-const products=[];
-
+const Product = require('../models/product');
 exports.getAddProduct = (req, res, next) => {
     // res.sendFile(path.join(__dirname,'..','views','add-product.html'));
     // res.sendFile(path.join(rootDir,'views','add-product.html'));
@@ -7,16 +6,17 @@ exports.getAddProduct = (req, res, next) => {
 }
 
 exports.postAddProduct = (req,res,next)=>{
-    products.push({'title':req.body.title});
-    console.log(products);
+    const product= new Product(req.body.title);
+    product.save();
     res.redirect('/');
 }
 
 exports.getProducts = (req, res, next) => {
-    const products = adminData.products;
+    Product.fetchAll((products)=>{
+        res.render('shop',{products: products, title: 'shop', path: '/', hasProducts: products.length>0});
+    });
     // res.sendFile(path.join(__dirname,'..','views','shop.html'));
     // res.sendFile(path.join(rootDir,'views','shop.html'));
-    res.render('shop',{products: products, title: 'shop', path: '/', hasProducts: products.length>0});
 }
 
 exports.pageNotFound = (req,res)=>{
