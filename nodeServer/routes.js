@@ -23,6 +23,7 @@ const requestHandler = (req, res) => {
       const parsedBody = Buffer.concat(body).toString();
       console.log(parsedBody);
       //   fs.writeFileSync("message.txt", parsedBody);
+      // writeFileSync will block the thread until writing is complete even if it is 100's of mbs.
       fs.writeFile("message.txt", parsedBody, err => {
         res.statusCode = 302;
         res.setHeader("Location", "/");
