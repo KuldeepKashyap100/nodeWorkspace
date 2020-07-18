@@ -7,8 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${workspaceFolder}\\controllers\\products.js"
+            "name": "nodemon app.js",
+            "program": "${workspaceFolder}/app.js"
         }
     ]
 }
