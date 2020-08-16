@@ -1,22 +1,43 @@
-const path = require('path');
+const path = require("path");
 
-const express = require('express');
+const express = require("express");
+const { check, body } = require("express-validator/check");
 
-const rootDir = require('../util/path');
-const adminController = require('../controllers/admin');
+const rootDir = require("../util/path");
+const adminController = require("../controllers/admin");
+const isAuth = require("../middleware/is-auth");
 
 const router = express.Router();
 
-router.get('/add-product', adminController.getAddProduct);
+// we can add as many handlers as we want and the request will be funneled through from left to right.
+router.get("/add-product", isAuth, adminController.getAddProduct);
 
-router.get('/products',adminController.getProducts);
+router.get("/products", isAuth, adminController.getProducts);
 
-router.post('/add-product',adminController.postAddProduct);
+router.post(
+  "/add-product",
+  [
+    body("title").isString().isLength({ min: 3 }).trim(),
+    body("price").isFloat().trim(),
+    body("description").isLength({ min: 5, max: 400 }).trim(),
+  ],
+  isAuth,
+  adminController.postAddProduct
+);
 
-router.get('/edit-product/:productId', adminController.getEditProduct);
+router.get("/edit-product/:id", isAuth, adminController.getEditProduct);
 
-router.post('/edit-product', adminController.postEditProduct);
+router.post(
+  "/edit-product",
+  [
+    body("title").isString().isLength({ min: 3 }).trim(),
+    body("price").isFloat().trim(),
+    body("description").isLength({ min: 5, max: 400 }).trim(),
+  ],
+  isAuth,
+  adminController.postEditProduct
+);
 
-router.post('/delete-product', adminController.deleteProduct);
+router.delete("/product/:productId", isAuth, adminController.deleteProduct);
 
 exports.router = router;
