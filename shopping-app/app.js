@@ -169,6 +169,8 @@ mongoose.connect(MONGODB_URI).then((result) => {
   console.log("connected!!!");
 });
 
+app.listen(3000);
+
 /**
  * sequelize relations
   app.use((req, res, next) => {
