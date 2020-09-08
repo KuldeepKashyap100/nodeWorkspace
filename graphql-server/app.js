@@ -96,9 +96,9 @@ app.use((err, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://root:38AzamslJAZXJ5Tx@cluster0.zgpxi.mongodb.net/blog?retryWrites=true",
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.zgpxi.mongodb.net/${process.env.MONGO_DB}?retryWrites=true`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then((result) => {
-    app.listen(8080);
+    app.listen(process.env.PORT || 8080);
   });
