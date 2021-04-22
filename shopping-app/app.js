@@ -7,7 +7,7 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 // for cross site request forgery
-const csrf = require("csurf");
+const csrf = require("csrf");
 // for file handling
 const multer = require("multer");
 const helmet = require('helmet');
