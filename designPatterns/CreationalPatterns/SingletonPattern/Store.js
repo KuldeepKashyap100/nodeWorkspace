@@ -1,6 +1,6 @@
-var Logger = require('./Logger');
+var logger = require('./Logger');
 
-var logger = new Logger().getInstance();
+// var logger = new Logger().getInstance();
 
 class Store {
 

@@ -28,7 +28,7 @@ const mongoose = require("mongoose");
 // import models for assotiation
 // const Product = require("./models/product");
 const User = require("./models/user");
-const  fs = require("fs");
+const fs = require("fs");
 // const Cart = require("./models/cart");
 // const CartItem = require("./models/cart-item");
 // const Order = require("./models/order");
