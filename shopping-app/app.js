@@ -7,7 +7,7 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 // for cross site request forgery
-const csrf = require("csrf");
+const csrf = require("csurf");
 // for file handling
 const multer = require("multer");
 const helmet = require('helmet');
@@ -98,7 +98,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorge, fileFilter: fileFilter }).single("image"));
 
 /**
- * secret : is used for assigning the hash
+ * secret : is used for signing the hash which secretly store our id in the cookie
  * resave : (false) session will not be saved for every request that has been sent. It is saved only if something changed in session
  *  saveUninitialized : (false) ensures that no session saved for the request where it does not needed to be saved.
  * cookie: to configure a cookie.
@@ -114,6 +114,13 @@ app.use(
 );
 app.use(csrfProtection);
 
+// if we don't want to send csrf token in each view. we have made a middleware for it
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 // this package will add certain headers to the response to protect it from certain attack patterns and security issues
 app.use(helmet());
 //this package will compress the resourses
@@ -122,13 +129,6 @@ app.use(compression());
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' });
 app.use(morgan('tiny', {stream: accessLogStream}));
 
-
-
-app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
 
 // add new temporary field to session for only one request.
 app.use(flash());

@@ -13,6 +13,8 @@ export const loginRequired = (req, res, next) => {
 
 export const register = (req, res, next) => {
     const newUser = new User(req.body);
+    // Salting is simply the addition of a unique, random string of characters 
+    // known only to the site to each password before it is hashed,
     newUser.hashedPassword = bcrypt.hashSync(req.body.password, 10);
     newUser.save((err, user) => {
         if(err) return res.status(400).send({message: err});
@@ -25,10 +27,10 @@ export const login  = (req, res, next) => {
     User.find({ email: req.body.email}, (err, user) => {
         if(err) throw err;
         if(!user) return res.status(400).json({message: "User not found"});
-        if(!bcrypt.compare(req.body.password, user.hashedPassword)) {
+        if(!bcrypt.compareSync(req.body.password, user.hashedPassword)) {
             return res.status(401).json({message: "unauthorized user"});
         }
-        return res.status(200).json({toke: jwt.sign({ 
+        return res.status(200).json({token: jwt.sign({ 
             email: user.email,
             userName: user.name,
             _id: user._id
