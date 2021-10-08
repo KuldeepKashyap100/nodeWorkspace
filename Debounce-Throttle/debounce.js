@@ -6,13 +6,11 @@ const fetchData=()=>{
 function debounce(fetchData,delay){
     let timer;
     return function (){
-        let context =  this;
-        let args=arguments;
+        const context = this;
+        const args = arguments;
         clearTimeout(timer);
         // clearInterval(timer); both works and setTimeOut and setInterval keeps a common pool of ids
-        timer = setTimeout(function(){
-            fetchData.apply(context,args);
-        },delay);
+        timer = setTimeout(() => fetchData.apply(context,args),delay);
     }
 }
 

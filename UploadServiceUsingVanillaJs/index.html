@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File upload</title>
+</head>
+<body>
+    <input id="fileUploadInput" type="file" /> <button class="upload" id="uploadButton">Upload file</button>
+    <div id="progressBar"></div>
+    <script>
+        const fileField = document.getElementById("fileUploadInput");
+        const uploadButton = document.getElementById("uploadButton");
+        const progressBar = document.getElementById("progressBar");
+        progressBar.innerText = "";
+        const fileReader = new FileReader();
+        uploadButton.onclick = () => {
+            const file = fileField.files[0];
+            const fileName = Math.floor(Math.random() * 1000) +file.name;
+            fileReader.onload = async (event) => {
+                const CUNK_SIZE = 1000;
+                const totalChunks = event.target.result.byteLength / CUNK_SIZE;
+                const chunckList = event.target.result;
+                for(let chunkIdx = 0; chunkIdx <= totalChunks; chunkIdx++) {
+                    const chunk = chunckList.slice(chunkIdx * CUNK_SIZE, chunkIdx * CUNK_SIZE + CUNK_SIZE);
+                    await fetch("/upload", {
+                        method: "POST",
+                        headers: {
+                            "file-name": fileName,
+                            "content-type": "application/octect-stream",
+                            "content-length": chunk.length,
+                        },
+                        body: chunk
+                    });
+                    progressBar.innerText = Math.round(chunkIdx * 100 / totalChunks) + "%";
+                }
+            }
+            fileReader.readAsArrayBuffer(file);
+        }
+    </script>
+</body>
+</html>
