@@ -6,7 +6,7 @@
   "dependencies": {
     "loadtest": "^5.1.2",
     "node-localstorage": "^2.1.6",
-    "pm2": "^4.5.6"
+    "pm2": "^5.2.0"
   },
   "devDependencies": {},
   "scripts": {
